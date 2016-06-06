@@ -38,7 +38,6 @@ public class ProcessUtils {
                 System.out.println(errorMSG);
             }
 
-            //检查命令是否失败
             try {
                 if(pro.waitFor()!=0){
                     System.err.println("exit value:" + pro.exitValue());

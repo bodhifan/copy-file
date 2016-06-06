@@ -1,6 +1,7 @@
 package com.recode.utils;
 
 import java.io.*;
+import java.nio.charset.Charset;
 
 /**
  * DESCRIPTION
@@ -35,8 +36,8 @@ public class FileUtils {
         BufferedReader reader = null;
         PrintWriter writer = null;
         try {
-            reader = new BufferedReader(new FileReader(src));
-            writer = new PrintWriter(des);
+            reader = new BufferedReader(new InputStreamReader(new FileInputStream(src),"utf-8"));
+            writer = new PrintWriter(des,"utf-8");
             String line;
             while((line=reader.readLine()) != null)
             {
@@ -68,12 +69,12 @@ public class FileUtils {
     }
 
 
-    public static String getCopyFile(File orignFile) {
+    public static String getCopyFile(File orignFile,String ext) {
 
         String path = orignFile.getParent();
         String name = orignFile.getName();
-        name = name.substring(0,name.indexOf("."));
-        name += COPY_EXT_NAME;
+        name = name.substring(0,name.indexOf(""));
+        name += ext;
         return  path+File.separatorChar+name;
     }
 

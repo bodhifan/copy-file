@@ -19,16 +19,36 @@ import java.util.concurrent.ForkJoinPool;
 public class Main {
     public static void main(String[] args)
     {
-        System.out.println(args[0]);
-        String dirPath = ".";
-        if (args.length == 2) {
-            dirPath = args[1];
-            System.out.println(dirPath);
+
+        String dirPath = "";
+        boolean decode = true;
+
+        if (args.length >= 1) {
+            dirPath = args[0];
+            if (!new File(dirPath).exists())
+            {
+                System.out.println("目录不存在：" + dirPath);
+                return;
+            }
         }
-        System.out.println("处理主路径：" + dirPath);
+        if (args.length >= 2)
+        {
+            String isDecode = args[1];
+            if (isDecode.matches("[-]?[0-9]")) {
+                Integer flag = Integer.parseInt(isDecode);
+                if (flag < 0) decode = false;
+            }
+            if (isDecode.equals("false"))
+                decode = false;
+        }
+
+        String msg = "解密";
+        if (!decode) msg="加密";
+       // dirPath="D:\\workspace\\projects\\HttpLogin";
+        System.out.println(msg + "目录:\r\n"+ dirPath);
         File dir = new File(dirPath);
         ForkJoinPool forkJoinPool = new ForkJoinPool();
-        forkJoinPool.invoke(new RecodeRecursiveAction(Folder.getFolderFromDirectory(dir)));
-        System.out.println("解密完毕");
+        forkJoinPool.invoke(new RecodeRecursiveAction(Folder.getFolderFromDirectory(dir),decode));
+        System.out.println(msg+"完成！");
     }
 }
